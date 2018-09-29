@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <!-- 디비 커넥션 풀을 사용하기 위한 리스너! -->
+  <listener>
+  	<listener-class>jdbc.DBCPInitListener</listener-class>
+  </listener>
+  <!-- 어플리케이션 컨텍스트에서 사용할 value -->
+  <context-param>
+  	<param-name>poolConfigFile</param-name>
+  	<param-value>/WEB-INF/dbConfig/db.properties</param-value>
+  </context-param>
+  <!-- character Encoding 하는 Filter -->
+  <filter>
+  	<filter-name>encodingFilter</filter-name>
+  	<filter-class>filter.CharacterEncodingFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>encodingFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+   <!-- login확인 하는 Filter -->
+  <filter>
+  	<filter-name>LoginCheckFilter</filter-name>
+  	<filter-class>filter.LoginCheckFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>LoginCheckFilter</filter-name>
+  	<url-pattern>/changePwd</url-pattern>
+  	<url-pattern>/article/write</url-pattern>
+  	<url-pattern>/article/modify</url-pattern>
+  	<url-pattern>/article/delete</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+  	<filter-name>encodingFilter</filter-name>
+  	<url-pattern>/changePwd</url-pattern>
+  </filter-mapping>
+  <!-- 등록하려는 컨트롤러 서블릿 -->
+  <servlet>
+  	<servlet-name>boardController</servlet-name>
+  	<servlet-class>common.controller.BoardController</servlet-class>
+  	<init-param>
+  		<param-name>handlerConfigFile</param-name>
+  		<param-value>/WEB-INF/handlerConfig/commandHandler.properties</param-value>
+  	</init-param>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>boardController</servlet-name>
+  	<url-pattern>/join</url-pattern>
+  	<url-pattern>/login</url-pattern>
+  	<url-pattern>/logout</url-pattern>
+  	<url-pattern>/changePwd</url-pattern>
+  	<url-pattern>/article/write</url-pattern>
+  	<url-pattern>/article/list</url-pattern>
+  	<url-pattern>/article/read</url-pattern>
+  	<url-pattern>/article/modify</url-pattern>
+  	<url-pattern>/article/delete</url-pattern>
+  </servlet-mapping>
+</web-app>
